@@ -1,32 +1,34 @@
 #include <iostream>
 using namespace std;
 
+bool checker(string s){
+    bool check [26] = {};
+    int len = s.length();
+
+    for(int j=0; j<len; j++){
+        char ch = s[j];
+        if (check[ch - 'a'])
+            return false;
+        check[ch-'a'] = true;
+        while(s[j+1] == ch) {
+            j++;
+        }
+        if (j == len - 1)
+            return true;
+    }
+
+}
+
 int main() {
     int n;
     cin >> n;
     bool check = true;
     int count = 0;
 
-    for(int i=0; i<n; i++){
-        check = true;
+    for(int i=0; i<n; i++) {
         string s;
         cin >> s;
-        int len = s.length();
-
-        for(int j=0; j<len; j++){
-            char ch = s.at(j);
-
-            while(j<len-1 && s.at(j+1) == ch){
-                j++;
-            }
-
-            for(int k=j+1; k<len; k++){
-                if(s.at(k) == ch){
-                    check = false;
-                }
-            }
-        }
-        if(check)
+        if(checker(s))
             count++;
     }
 

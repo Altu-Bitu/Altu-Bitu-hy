@@ -6,8 +6,8 @@ using namespace std;
 int main(){
     int n;
     cin >> n;
-    int a[n], b[n];
-    bool check[n];
+    vector<int> a(n), b(n);
+    vector<bool> check(n);
     for(int i=0; i<n; i++){
         cin >> a[i];
     }
@@ -15,13 +15,13 @@ int main(){
         cin >> b[i];
     }
 
-    sort(a, a+n);
+    sort(a.begin(), a.end());
 
-    sort(b, b+n);
+    sort(b.begin(), b.end(), greater<>());
 
     int sum = 0;
     for(int i=0; i<n; i++){
-        sum += a[i]*b[n-i-1];
+        sum += a[i]*b[i];
     }
 
     cout << sum;

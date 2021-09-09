@@ -4,29 +4,24 @@
 #include <algorithm>
 using namespace std;
 
-struct xy{
-    int x,y;
-};
-
-bool comp(const xy &i1, const xy &i2){
-    if(i1.y != i2.y)
-        return i1.y < i2.y;
-    return i1.x < i2.x;
+bool comp(const pair<int, int> &i1, const pair<int, int> &i2){
+    if(i1.second != i2.second)
+        return i1.second < i2.second;
+    return i1.first < i2.first;
 }
 
 int main(){
     int n;
-    vector<xy> xy;
     cin >> n;
+    vector<pair<int, int>> xy(n);
 
-    xy.assign(n, {});
     for(int i=0; i<n; i++){
-        cin >> xy[i].x >> xy[i].y;
+        cin >> xy[i].first >> xy[i].second;
     }
 
     sort(xy.begin(), xy.end(), comp);
 
     for(int i=0; i<n; i++){
-        cout << xy[i].x << " " << xy[i].y << '\n';
+        cout << xy[i].first << " " << xy[i].second << '\n';
     }
 }

@@ -23,8 +23,6 @@ int solution(vector<pair<int, int>> v, int n) {
 int main(){
     int t;
     cin >> t;
-
-    vector<int> ans(t);
     
     //입력, 정렬
     for(int i=0; i<t; i++){
@@ -37,12 +35,7 @@ int main(){
 
         sort(v.begin(), v.end());
 
-        ans[i] = solution(v, n);
+        cout << solution(v, n) << '\n';
     }
-
-    //출력
-    for(int i=0; i<t; i++){
-        cout << ans[i] << '\n';
-    }
+    
 }
-

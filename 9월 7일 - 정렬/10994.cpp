@@ -1,9 +1,10 @@
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-void solve(int x, int y, int start_len, int length, char star[][400]){
+void solve(int x, int y, int start_len, int length, vector<vector<char>> &star){
 
     if(x == start_len / 2  && y == start_len / 2){
         star[x][y] = '*';
@@ -11,15 +12,10 @@ void solve(int x, int y, int start_len, int length, char star[][400]){
     }
 
     for(int i=x; i<x+length; i++){
-        if(i==x || i==x+length-1){
-            for(int j=y; j<y+length; j++){
-                star[i][j] = '*';
-            }
-        }
-        else{
-            star[i][y] = '*';
-            star[i][y+length-1] = '*';
-        }
+        star[i][y] = '*';
+        star[i][y+length-1] = '*';
+        star[x][i] = '*';
+        star[x+length-1][i] = '*';
     }
 
     solve(x+2, y+2, start_len, length-4, star);
@@ -28,20 +24,15 @@ void solve(int x, int y, int start_len, int length, char star[][400]){
 int main(){
     int n;
     cin >> n;
-    int length = 1+(n-1)*4;
+    int length = 4*n-3;
 
-    char star[400][400];
+    vector<vector<char>> star(length,vector<char>(length, ' '));
 
     solve(0, 0, length, length, star);
 
     for(int i=0; i<length; i++){
-        for(int j=0; j<length; j++){
-            if(star[i][j] == '*'){
-                cout << star[i][j];
-            }
-            else
-                cout << " ";
-        }
+        for(int j=0; j<length; j++)
+            cout << star[i][j];
         cout << '\n';
     }
 }

@@ -5,23 +5,15 @@
 
 using namespace std;
 
-int solution(int n) {
-    vector<pair<int, int>> v;
-    v.assign(n, {});
+int solution(vector<pair<int, int>> v, int n) {
 
-    for(int i=0; i<n; i++){
-        cin >> v[i].first >> v[i].second;
-    }
-
-    sort(v.begin(), v.end());
-
-    int count = n;
+    int count = 1;
     int temp = v[0].second;
     for(int i=1; i<n; i++){
-        if(v[i].second > temp)
-            count--;
-        else
+        if(v[i].second < temp) {
+            count++;
             temp = v[i].second;
+        }
     }
 
     return count;
@@ -32,16 +24,25 @@ int main(){
     int t;
     cin >> t;
 
-    int answer[t];
-
+    vector<int> ans(t);
+    
+    //입력, 정렬
     for(int i=0; i<t; i++){
         int n;
         cin >> n;
-        answer[i] = solution(n);
+        vector<pair<int, int>> v(n);
+        for(int j=0; j<n; j++){
+            cin >> v[j].first >> v[j].second;
+        }
+
+        sort(v.begin(), v.end());
+
+        ans[i] = solution(v, n);
     }
 
+    //출력
     for(int i=0; i<t; i++){
-        cout << answer[i] << '\n';
+        cout << ans[i] << '\n';
     }
 }
 

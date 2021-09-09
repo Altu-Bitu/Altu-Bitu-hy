@@ -4,40 +4,39 @@
 
 using namespace std;
 
-struct serial{
-    string num;
-    int length, sum;
-};
+int sum(string s){
+    int sum = 0;
 
-bool cmp(const serial &i1, const serial &i2){
-    if(i1.num.length() != i2.num.length())
-        return i1.length < i2.length;
-    if(i1.sum != i2.sum)
-        return i1.sum < i2.sum;
-    return i1.num < i2.num;
+    for (int j = 0; j < s.length(); j++) {
+        if (s[j] >= '0' && s[j] <= '9')
+            sum += s[j]-'0';
+    }
+    return sum;
 }
 
-int main(){
+bool cmp(const string &i1, const string &i2){
+    if(i1.length() != i2.length())
+        return i1.length() < i2.length();
+    if(sum(i1) != sum(i2))
+        return sum(i1) < sum(i2);
+    return i1 < i2;
+}
+
+int main() {
     int n;
-    vector<serial> srl;
     cin >> n;
-    srl.assign(n, {});
+    string num[n];
 
-    for(int i=0; i<n; i++){
-        cin >> srl[i].num;
-        srl[i].length = srl[i].num.length();
-    }
-
+    //입력
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < srl[i].length; j++) {
-            if (srl[i].num.at(j) >= 48 && srl[i].num.at(j) <= 57)
-                srl[i].sum += srl[i].num.at(j)-'0';
-        }
+        cin >> num[i];
     }
 
-    sort(srl.begin(), srl.end(), cmp);
+    //정렬
+    sort(num, num+n, cmp);
 
-    for(int i=0; i<n; i++) {
-        cout << srl[i].num << '\n';
+    //출력
+    for (int i = 0; i < n; i++) {
+        cout << num[i] << '\n';
     }
 }

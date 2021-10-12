@@ -7,6 +7,21 @@
 
 using namespace std;
 
+int score, cur;
+
+void run(vector<int> &ground, int i){
+    for (int k = 0; k < 9; k++) {
+        if (ground[k] > 0) {
+            ground[k] += i;
+            if (ground[k] > 3) {
+                ground[k] = 0;
+                score++;
+            }
+        }
+    }
+    ground[cur] += i;
+}
+
 int play(vector<vector<int>> hit, int inning) {
 
     int ans = 0;
@@ -17,8 +32,8 @@ int play(vector<vector<int>> hit, int inning) {
 
         //1~9번 선수 순으로 결과를 넣은 hit 벡터
         //이닝마다 타순대로 결과를 넣은 hit_order 스택
-        int score = 0;
-        int cur = 0; // 0~8번 타자 중 현재 몇 번째 타자인지
+        score = 0;
+        cur = 0; // 0~8번 타자 중 현재 몇 번째 타자인지
         for (int i = 0; i < inning; i++) {
             int out = 0;
             vector<int> ground(9, 0); // 선수들이 몇 루에 있는지. 인덱스는 타순.
@@ -27,51 +42,14 @@ int play(vector<vector<int>> hit, int inning) {
                 if(cur==9)
                     cur = 0;
                 int t = hit[i][order[cur]]; // 현재 타자가 칠 공의 유형
-
                 if (t == 0) {
                     out++;
                     if (out == 3) {
                         cur++;
                         break;
                     }
-
-                } else if (t == 1) {
-                    for (int k = 0; k < 9; k++) {
-                        if (ground[k] > 0) {
-                            ground[k]++;
-                            if (ground[k] > 3) {
-                                ground[k] = 0;
-                                score++;
-                            }
-                        }
-                    }
-                    ground[cur] += 1;
-
-                } else if (t == 2) {
-                    for (int k = 0; k < 9; k++) {
-                        if (ground[k] > 0) {
-                            ground[k] += 2;
-                            if (ground[k] > 3) {
-                                ground[k] = 0;
-                                score++;
-                            }
-                        }
-                    }
-                    ground[cur] += 2; // 타자도 2루 이동함
-
-                } else if (t == 3) {
-                    for (int k = 0; k < 9; k++) {
-                        if (ground[k] > 0) {
-                            ground[k] += 3;
-                            if (ground[k] > 3) {
-                                ground[k] = 0;
-                                score++;
-                            }
-                        }
-                    }
-                    ground[cur] += 3; //타자도 3루 이동함
-
-                } else if (t == 4) {
+                }
+                else if (t == 4) {
                     score++;// 타자도 홈을 통과함.
                     for (int k = 0; k < 9; k++) {
                         if (ground[k] > 0) {
@@ -80,6 +58,9 @@ int play(vector<vector<int>> hit, int inning) {
                         }
                     }
                 }
+                else
+                    run(ground, t);
+
                 cur++; // 0번 타자부터 시작
 
             }
